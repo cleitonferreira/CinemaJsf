@@ -168,6 +168,27 @@
 		</dependency>
 
 
+		<!-- Bibliotecas para Teste -->
+
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- O DbUnit é uma extensão do JUnit que oferece funcionalidades específicas 
+			para testes envolvendo banco de dados -->
+		<!-- DBUnit -->
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.4.9</version>
+			<scope>test</scope>
+		</dependency>
+
+
 	</dependencies>
 
 

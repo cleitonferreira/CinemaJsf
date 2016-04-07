@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo">Inscrição</ui:insert></title>
+
+	<script type="text/javascript">
+		PrimeFaces.locales['pt_BR'] = {
+			closeText : 'Fechar',
+			prevText : 'Anterior',
+			nextText : 'Próximo',
+			currentText : 'Começo',
+			monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+					'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+					'Novembro', 'Dezembro' ],
+			monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+					'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+			dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+					'Sexta', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+			dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Só Horas',
+			timeText : 'Tempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			currentText : 'Data Atual',
+			ampm : false,
+			month : 'Mês',
+			week : 'Semana',
+			day : 'Dia',
+			allDayText : 'Todo Dia'
+		};
+	</script>
+</h:head>
+
+<h:body>
+
+	<f:metadata>
+		<f:viewParam name="inscricao"
+			value="#{cadastroInscricaoBean.inscricao}" />
+		<f:event listener="#{cadastroInscricaoBean.inicializar}"
+			type="preRenderView" />
+	</f:metadata>
+
+
+	<h:form>
+		<div class="ui-fluid">
+
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/inscricao/CadastroInscricao" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/inscricao/PesquisaInscricoes" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+			<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10"
+				layout="grid" styleClass="ui-panelgrid-blank">
+
+
+				<p:messages autoUpdate="true" closable="true" />
+				<p:growl autoUpdate="true" />
+
+
+
+
+				<p:outputLabel value="Nome completo" for="nome" />
+				<p:inputText id="nome" styleClass="form-control" size="60"
+					maxlength="80" onkeyup="this.value = this.value.toUpperCase()"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_nome}" />
+
+				<p:outputLabel value="Cpf" for="cpf" />
+				<p:inputMask id="cpf" styleClass="form-control" size="40"
+					maxlength="14" mask="999.999.999-99"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_cpf}"
+					disabled="#{cadastroInscricaoBean.inscricao.inscricao_cpf != null}"
+					required="true" requiredMessage="O campo [CPF] é obrigatório">
+					<f:validator validatorId="validation.CPFValidator" />
+					<f:converter converterId="converter.CpfConverter" />
+				</p:inputMask>
+
+				<p:outputLabel value="Rg" for="rg" />
+				<p:inputText id="rg" styleClass="form-control" size="40"
+					maxlength="12"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_rg}" />
+
+				<p:outputLabel value="Órgão Expeditor" for="oe" />
+				<p:inputText id="oe" styleClass="form-control" size="60"
+					maxlength="80"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_oe}" />
+
+				<p:outputLabel value="Data de Nascimento" for="dtNascimento" />
+				<p:calendar id="dtNascimento" locale="pt_BR"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_datanasc}"
+					pattern="dd-MM-yyyy" mask="true" />
+
+				<p:outputLabel value="Sexo" for="sexo" />
+				<p:selectOneButton id="sexo"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_sexo}">
+					<f:selectItem itemLabel="Masculino" itemValue="false" />
+					<f:selectItem itemLabel="Feminino" itemValue="true" />
+				</p:selectOneButton>
+
+				<p:outputLabel value="Telefone" for="tel" />
+				<p:inputMask id="tel" styleClass="form-control" size="40"
+					maxlength="14" mask="(99) 9999-9999"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_tel}" />
+
+				<p:outputLabel value="Celular" for="cel" />
+				<p:inputMask id="cel" styleClass="form-control" size="40"
+					maxlength="15" mask="(99) 9999-9999?9"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_cel}" />
+
+				<p:outputLabel value="Email" for="email" />
+				<p:inputText id="email" styleClass="form-control" size="60"
+					maxlength="80" onkeyup="this.value = this.value.toLowerCase()"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_email}" />
+
+				<p:outputLabel value="Portador de Necessidade Especial"
+					for="portador_especial" />
+				<h:panelGroup>
+
+					<p:selectBooleanButton id="portador_especial"
+						value="#{cadastroInscricaoBean.inscricao.inscricao_portador_especial}"
+						onLabel="Sim" offLabel="Não" onIcon="ui-icon-check"
+						offIcon="ui-icon-close">
+						<p:ajax update="portador_descricao" />
+					</p:selectBooleanButton>
+					<h:outputText value="Click no botão!" />
+
+				</h:panelGroup>
+
+				<p:outputLabel value="Necessidade Especial" for="portador_descricao" />
+				<p:inputText id="portador_descricao" styleClass="form-control"
+					disabled="#{cadastroInscricaoBean.inscricao.habilitarCampoPortadorDescricao}"
+					size="40" maxlength="80"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_portador_descricao}" />
+
+				<p:outputLabel value="Endereço" for="endereco" />
+				<p:inputText id="endereco" styleClass="form-control" size="40"
+					maxlength="80"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_endereco}" />
+
+				<p:outputLabel value="Bairro" for="bairro" />
+				<p:inputText id="bairro" styleClass="form-control" size="40"
+					maxlength="80"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_bairro}" />
+
+				<p:outputLabel value="Cep" for="cep" />
+				<p:inputMask id="cep" styleClass="form-control" size="40"
+					maxlength="10" mask="99999-999"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_cep}" />
+
+
+				<p:outputLabel value="Estado" for="estado" />
+				<p:selectOneMenu id="estado" style="width:80%"
+					value="#{cadastroInscricaoBean.estado}" effect="fade" filter="true"
+					filterMatchMode="startsWith">
+					<f:selectItem itemLabel="Selecione o estado" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{cadastroInscricaoBean.listaEstados}"
+						var="estado" itemValue="#{estado}" itemLabel="#{estado.est_nome}" />
+					<p:ajax listener="#{cadastroInscricaoBean.carregarCidades}"
+						update="cidade" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Cidade" for="cidade" />
+				<p:selectOneMenu id="cidade" style="width:80%"
+					value="#{cadastroInscricaoBean.inscricao.cidade}" effect="fade"
+					filter="true" filterMatchMode="startsWith">
+					<f:selectItem itemLabel="Selecione a cidade" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{cadastroInscricaoBean.listaCidades}"
+						var="cidade" itemValue="#{cidade}" itemLabel="#{cidade.cid_nome}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Status" for="status"
+					rendered="#{cadastroInscricaoBean.inscricao.inscricao_id}" />
+				<p:inputSwitch id="status" onLabel="Ativo" offLabel="Fechado"
+					rendered="#{cadastroInscricaoBean.inscricao.inscricao_id}"
+					immediate="true"
+					value="#{cadastroInscricaoBean.inscricao.inscricao_status}"
+					style="margin-top:10px" />
+
+
+				<p:outputLabel />
+
+					<p:panelGrid columns="2" style="margin-top: 20px; text-align: center;">
+
+						<p:commandButton value="Limpar" styleClass="botao btn btn-primary"
+							icon="fa fa-bolt" update="@form" process="@this"
+							style="margin-right:20px; whidt:30% !important;">
+							<p:resetInput target="@form" />
+						</p:commandButton>
+
+						<p:commandButton styleClass="botao btn btn-success" value="Salvar"
+							icon="fa fa-check" id="botaoSalvar"
+							action="#{cadastroInscricaoBean.salvar}" update="@form" />
+					</p:panelGrid>
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</p:panelGrid>
+		</div>
+	</h:form>
+</h:body>
+
+</html>

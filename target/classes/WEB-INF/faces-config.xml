@@ -18,4 +18,16 @@
 <!-- 		</resource-library-contracts> -->
 <!-- 	</application> -->
 
+	<!-- Declarando o validator de Cpf no faces-config: -->
+
+	<converter>
+		<converter-id>converter.CpfConverter</converter-id>
+		<converter-class>br.com.cinema.converter.CpfConverter</converter-class>
+	</converter>
+
+	<validator>
+		<validator-id>validation.CPFValidator</validator-id>
+		<validator-class>br.com.cinema.validation.CPFValidator</validator-class>
+	</validator>
+
 </faces-config>

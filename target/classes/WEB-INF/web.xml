@@ -1,12 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
 
-
-<context-param>
+	<!-- Configuração do estágio atual da sua aplicação -->
+	<!-- As configurações que existem atualmente são: “Development”, “UnitTest”, 
+		“SystemTest”, “Production” ( que é o padrão). -->
+	<context-param>
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
-<!-- 		<param-value>Development</param-value> -->
+		<!-- <param-value>Development</param-value> -->
 		<param-value>Production</param-value>
 	</context-param>
+
+
+	<!-- Escondendo os comentários das página xhtml -->
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- Ignora os comentários em seu JSF durante o carregamento das páginas -->
+	<context-param>
+		<param-name>facelets.SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<!-- javax.faces.FACELETS_REFRESH_PERIOD - Quando uma página é solicitada, 
+		o -->
+	<!-- intervalo em segundos caso o cheque compilador para mudanças. Se você -->
+	<!-- não quer que o compilador para verificar as alterações uma vez que 
+		a página -->
+	<!-- é compilada, em seguida, use um valor de -1. A definição de um período 
+		de -->
+	<!-- atualização de baixo ajuda durante o desenvolvimento para ser capaz 
+		de editar -->
+	<!-- páginas em um executando aplicação.Não runtime também deve considerar 
+		o -->
+	<!-- facelets.REFRESH_PERIOD param name como um apelido para este nome param -->
+	<!-- para compatibilidade com bibliotecas de tags facelets existentes. http://blog.triadworks.com.br/facelets-desligue-o-cache-de-paginas-em-desenvolvimento -->
+	<context-param>
+		<param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+		<param-value>0</param-value>
+	</context-param>
+	
+		<!-- Tema Boostrap Primefaces -->
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>bootstrap</param-value>
+	</context-param>
+
+	<!-- Habilitar 479 icons Font Awesome -->
+	<context-param>
+		<param-name>primefaces.FONT_AWESOME</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<!-- tratamento do erro HTTP 404 -->
+	<!-- quando um usuário tenta acessar recurso que não existe -->
+<!-- 	<error-page> -->
+<!-- 		<error-code>404</error-code> -->
+<!-- 		<location>/404.xhtml</location> -->
+<!-- 	</error-page> -->
+
+	<!-- Todas as excessões que ocorrerem no sistema será redirecionada para 
+		a página apresentada -->
+<!-- 	<error-page> -->
+<!-- 		<exception-type>java.lang.Exception</exception-type> -->
+<!-- 		<location>/Erro.xhtml</location> -->
+<!-- 	</error-page> -->
+
 	<listener>
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>

@@ -92,10 +92,6 @@ public class Inscricao implements Serializable {
 	private String inscricao_portador_descricao;
 	@Column(name = "INSCRICAO_ESCOLA", nullable = true, length = 40)
 	private String inscricao_escola;
-	@Column(name = "INSCRICAO_PRESENCA", nullable = true, columnDefinition = "TINYINT(1)")
-	private boolean inscricao_presenca;
-	@Column(name = "INSCRICAO_ESPECIALIDADE", nullable = true, columnDefinition = "CHAR(2)")
-	private String inscricao_especialidade;
 	@Column(name = "INSCRICAO_STATUS", nullable = true, columnDefinition = "TINYINT(1)")
 	private boolean inscricao_status;
 	@Basic(optional = true)
@@ -310,22 +306,6 @@ public class Inscricao implements Serializable {
 
 	public void setInscricao_escola(String inscricao_escola) {
 		this.inscricao_escola = inscricao_escola;
-	}
-
-	public boolean isInscricao_presenca() {
-		return inscricao_presenca;
-	}
-
-	public void setInscricao_presenca(boolean inscricao_presenca) {
-		this.inscricao_presenca = inscricao_presenca;
-	}
-
-	public String getInscricao_especialidade() {
-		return inscricao_especialidade;
-	}
-
-	public void setInscricao_especialidade(String inscricao_especialidade) {
-		this.inscricao_especialidade = inscricao_especialidade;
 	}
 
 	public boolean isInscricao_status() {

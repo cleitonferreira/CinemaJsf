@@ -1,5 +1,4 @@
 package bd;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 //Precisamos apenas criar um EntityManagerFactory, que todas as tabelas mapeadas
@@ -8,9 +7,7 @@ import javax.persistence.Persistence;
 public class CriaTabelas {
 
 	public static void main(String[] args) {
-		EntityManagerFactory factory = Persistence
-				.createEntityManagerFactory("CinemaJsfPU");
-		factory.close();
+		Persistence.createEntityManagerFactory("CinemaJsfPU");
 	}
 
 }
