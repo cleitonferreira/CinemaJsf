@@ -5,6 +5,18 @@
 	
 	<persistence-unit name="CinemaJsfPU">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>br.com.cinema.model.Breve</class>
+		<class>br.com.cinema.model.Categoria</class>
+		<class>br.com.cinema.model.Cidade</class>
+		<class>br.com.cinema.model.Estado</class>
+		<class>br.com.cinema.model.Filme</class>
+		<class>br.com.cinema.model.Genero</class>
+		<class>br.com.cinema.model.Ingresso</class>
+		<class>br.com.cinema.model.Inscricao</class>
+		<class>br.com.cinema.model.Inscricao_Filme</class>
+		<class>br.com.cinema.model.Pais</class>
+		<class>br.com.cinema.model.Sala</class>
+		<class>br.com.cinema.model.Sessao</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/cinemaJsf" />

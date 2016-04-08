@@ -5,8 +5,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import br.com.cinema.model.Inscricao;
+import br.com.cinema.repository.filter.InscricaoFilter;
 
 public class InscricaoRepository implements Serializable {
 
@@ -35,5 +44,33 @@ public class InscricaoRepository implements Serializable {
 
 	public Inscricao porId(Integer id) {
 		return manager.find(Inscricao.class, id);
+	}
+
+
+    public void remover(Inscricao inscricao) {
+	try {
+		manager.getTransaction().begin();
+		inscricao = porId(inscricao.getInscricao_id());
+	    manager.remove(inscricao);
+	    manager.flush();
+	} catch (PersistenceException e) {
+	    System.out.println("Inscrição não pode ser excluída");
+	}
+    }
+
+	@SuppressWarnings("unchecked")
+	public List<Inscricao> filtrados(InscricaoFilter filtro) {
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(Inscricao.class);
+
+		if (StringUtils.isNotBlank(filtro.getNome())) {
+			criteria.add(Restrictions.ilike("inscricao_nome", filtro.getNome(),
+					MatchMode.ANYWHERE));
+		}
+		if (StringUtils.isNotBlank(filtro.getCpf())) {
+			criteria.add(Restrictions.ilike("inscricao_cpf", filtro.getCpf(),
+					MatchMode.ANYWHERE));
+		}
+		return criteria.addOrder(Order.asc("inscricao_nome")).list();
 	}
 }

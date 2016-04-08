@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo">Consulta Inscrição</ui:insert></title>
+</h:head>
+
+<style>
+body {
+	font-size: 12px !important;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+}
+</style>
+
+<h:body>
+
+
+	<h:form id="frmPesquisa">
+
+
+		<p:toolbar style="margin-top: 20px">
+			<p:toolbarGroup>
+				<p:commandButton value="Pesquisar"
+					action="#{pesquisaInscricaoBean.pesquisar}" update="@form" />
+			</p:toolbarGroup>
+			<p:toolbarGroup align="right">
+				<p:button value="Novo" outcome="/inscricao/CadastroInscricao" />
+			</p:toolbarGroup>
+		</p:toolbar>
+
+		<p:panelGrid columns="2" id="painel"
+			style="width: 100%; margin-top: 20px"
+			columnClasses="ui-grid-col-1,ui-grid-col-11" layout="grid"
+			styleClass="ui-panelgrid-blank">
+
+
+			<p:outputLabel value="Nome" for="nome" />
+			<p:inputText id="nome" size="80"
+				value="#{pesquisaInscricaoBean.filtro.nome}" />
+
+
+			<p:outputLabel value="Cpf" for="cpf" />
+			<p:inputMask id="cpf" size="40" maxlength="11" mask="999.999.999-99"
+				value="#{pesquisaInscricaoBean.filtro.cpf}">
+				<f:converter converterId="converter.CpfConverter" />
+			</p:inputMask>
+
+		</p:panelGrid>
+
+
+		<p:messages autoUpdate="true" closable="true" />
+		<p:growl autoUpdate="true" />
+
+
+		<p:dataTable id="inscricaoTable"
+			value="#{pesquisaInscricaoBean.inscricaoFiltrados}" var="inscricao"
+			reflow="true" style="margin-top: 20px"
+			emptyMessage="Nenhuma inscricao encontrado." rows="20"
+			paginator="true" paginatorAlwaysVisible="false"
+			paginatorPosition="top" rowIndexVar="rowIndex"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink}
+                             {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="20,40,60,100,150,200"
+			selection="#{pesquisaInscricaoBean.inscricaoSelecionado}"
+			rowKey="#{inscricao.inscricao_id}">
+
+			<p:column style="text-align: center">
+				<p:commandButton update=":frmPesquisa:detail"
+					oncomplete="PF('detalhesDialog').show()" icon="fa fa-search-plus"
+					title="View">
+					<f:setPropertyActionListener value="#{inscricao}"
+						target="#{pesquisaInscricaoBean.inscricaoSelecionado}" />
+				</p:commandButton>
+			</p:column>
+			<p:column headerText="#">
+        			#{rowIndex+1}
+    			</p:column>
+			<p:column headerText="Nome">
+				<h:outputText value="#{inscricao.inscricao_nome}" />
+			</p:column>
+			<p:column headerText="Cpf">
+				<h:outputText value="#{inscricao.inscricao_cpf}" />
+			</p:column>
+			<p:column headerText="Estado">
+				<h:outputText value="#{inscricao.estado.est_nome}" />
+			</p:column>
+			<p:column headerText="Cidade" sortBy="inscricao.cidade.cid_nome">
+				<h:outputText value="#{inscricao.cidade.cid_nome}" />
+			</p:column>
+			<p:column headerText="Tel">
+				<h:outputText value="#{inscricao.inscricao_tel}" />
+			</p:column>
+			<p:column headerText="Cel">
+				<h:outputText value="#{inscricao.inscricao_cel}" />
+			</p:column>
+			<p:column headerText="Dt. de Cadastro">
+				<h:outputText value="#{inscricao.inscricao_datacad}">
+					<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
+						pattern="dd/MM/yyyy hh:mm:ss" />
+				</h:outputText>
+			</p:column>
+			<p:column style="text-align: center">
+				<!-- 					<p:button outcome="/inscricao/CadastroInscricao" icon="fa fa-pencil fa-fw" title="Editar"> -->
+				<!-- 						<f:param name="inscricao" value="#{inscricao.inscricao_id}" /> -->
+				<!-- 					</p:button> -->
+
+				<p:commandButton icon="fa fa-trash-o fa-lg" title="Excluir"
+					oncomplete="PF('confirmacaoExclusao').show()" process="@this"
+					update=":frmPesquisa:confirmacaoExclusaoDialog">
+					<f:setPropertyActionListener
+						target="#{pesquisaInscricaoBean.inscricaoSelecionado}"
+						value="#{inscricao}" />
+				</p:commandButton>
+			</p:column>
+		</p:dataTable>
+
+		<p:confirmDialog header="Exclusão do inscrição"
+			id="confirmacaoExclusaoDialog"
+			message="Tem certeza que deseja excluir a inscrição #{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_nome}?"
+			widgetVar="confirmacaoExclusao" styleClass="confirmDialog">
+
+			<div style="text-align: center;">
+				<p:commandButton value="Sim" icon="fa fa-check"
+					oncomplete="PF('confirmacaoExclusao').hide();"
+					action="#{pesquisaInscricaoBean.excluir}" process="@this"
+					update=":frmPesquisa:inscricaoTable" />
+
+				<p:commandButton value="Não" type="button" icon="fa fa-times"
+					onclick="PF('confirmacaoExclusao').hide(); return false;" />
+			</div>
+		</p:confirmDialog>
+
+
+		<p:dialog header="Detalhes - Inscrição" widgetVar="detalhesDialog"
+			modal="true" closeOnEscape="fa fa-times" showEffect="fade"
+			hideEffect="fade" resizable="false" responsive="true">
+			<p:outputPanel id="detail" style="font-size: 12px;">
+				<p:panelGrid columns="2">
+
+					<h:outputText value="Nome" />
+					<h:outputText
+						value="#{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_nome}" />
+
+					<h:outputText value="Cpf" />
+					<h:outputText
+						value="#{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_cpf}" />
+
+					<h:outputText value="Rg" />
+					<h:outputText
+						value="#{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_rg}" />
+
+					<h:outputText value="Dt. Nascimento" />
+					<h:outputText
+						value="#{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_datanasc}">
+						<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
+							pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+					<h:outputText value="Tel" />
+					<h:outputText
+						value="#{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_tel}" />
+
+					<h:outputText value="Cel" />
+					<h:outputText
+						value="#{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_cel}" />
+
+					<h:outputText value="Email" />
+					<h:outputText
+						value="#{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_email}" />
+
+					<h:outputText value="Dt. Cadastro" />
+					<h:outputText
+						value="#{pesquisaInscricaoBean.inscricaoSelecionado.inscricao_datacad}">
+						<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
+							pattern="dd/MM/yyyy hh:mm:ss" />
+					</h:outputText>
+
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+
+
+
+	</h:form>
+</h:body>
+
+</html>
